@@ -1,0 +1,89 @@
+﻿@ {
+    Layout = null;
+}
+
+<!DOCTYPE html >
+<html >
+<head >
+<title > Bank Payment</title >
+<link rel="stylesheet" href="@Url.Content(" ~ /css/BankPayment.css")" / >
+</head >
+<body >
+<h2 > Bank Payment</h2 >
+<div class="payment-container" >
+<form id="paymentForm" action="/BankPayment/ProcessPayment" method="post" >
+<label for="cardNumber" > Card Number:</label >
+<input type="text" id="cardNumber" name="cardNumber" required >
+
+<label for="expirationDate" > Expiration Date:</label >
+<input type="text" id="expirationDate" name="expirationDate" placeholder="MM/YYYY" required >
+
+<label for="cvc" > CVC:</label >
+<input type="text" id="cvc" name="cvc" required >
+
+<label for="preFilledAmount" > Amount to Deposit:</label >
+<input type="text" id="preFilledAmount" name="preFilledAmount" value="@ViewData["Amount"]" readonly >
+
+<button type="submit" > Make Payment</button >
+</form >
+</div >
+</body >
+</html >
+
+<style >
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.payment-container {
+    max-width: 400px;
+    margin: 50px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    text-align: center;
+    color: #3498db;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center the form content */
+}
+
+label {
+    margin-bottom: 8px;
+    color: #333;
+}
+
+input {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #3498db;
+    border-radius: 4px;
+    width: 100%; /* Make the input fields full width */
+}
+
+button {
+    background-color: #3498db;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%; /* Make the button full width */
+}
+
+    button:hover {
+        background-color: #2980b9;
+    }
+
+</style >
