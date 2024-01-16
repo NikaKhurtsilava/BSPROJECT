@@ -1,11 +1,16 @@
+using BankPayy.Services;
+using BankPayy.Services.IServices;
+using BankPayy.Settings;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.Services.Configure<BankSettings>(builder.Configuration.GetSection("BankSettings"));
+builder.Services.AddTransient<IPaymentService, PaymentService>();
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpClient();
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");

@@ -1,7 +1,9 @@
 ﻿using BankPayy.Enums;
 using BankPayy.Models;
 using BankPayy.Services;
+using BankPayy.Settings;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace BankPayy.Controllers
 {
@@ -10,10 +12,11 @@ namespace BankPayy.Controllers
     {
         PaymentService paymentService = new PaymentService();
         private readonly IHttpClientFactory _httpClientFactory;
-
-        public BankPaymentController(IHttpClientFactory httpClientFactory)
+        private readonly IOptions<BankSettings> _bankSettings;
+        public BankPaymentController(IHttpClientFactory httpClientFactory, IOptions<BankSettings> bankSettings)
         {
             _httpClientFactory = httpClientFactory;
+            _bankSettings = bankSettings;
         }
         public IActionResult BankPayment(int amount, string userId)
         {
@@ -48,7 +51,7 @@ namespace BankPayy.Controllers
 
             using (var httpClient = _httpClientFactory.CreateClient())
             {
-                var apiUrl = "https://localhost:44398/api/firstprojectapi/processpayment";
+                var apiUrl = _bankSettings.Value.ProcessPaymentUrl;
 
                 var requestData = new DepositRequest
                 {

@@ -1,17 +1,21 @@
 ﻿using FirstProjectTest.Models;
 using FirstProjectTest.Repo.IServices;
+using FirstProjectTest.Settings;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using System.Security.Claims;
 
 namespace FirstProjectTest.Controllers
 {
     public class DepositController : Controller
     {
+        private readonly IOptions<FirstProjectSettings> _firstProjectSettings;
         private readonly IWalletService _walletService;
 
-        public DepositController(IWalletService walletService)
+        public DepositController(IWalletService walletService, IOptions<FirstProjectSettings> firstProjectSettings)
         {
             _walletService = walletService;
+            _firstProjectSettings = firstProjectSettings;
         }
 
         public IActionResult Deposit()
@@ -42,7 +46,7 @@ namespace FirstProjectTest.Controllers
 
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri("https://localhost:7292"); 
+                client.BaseAddress = new Uri(_firstProjectSettings.Value.ApiUrl); 
                 var response = client.PostAsJsonAsync("/api/deposit", depositRequest).Result;
 
                 if (response.IsSuccessStatusCode)

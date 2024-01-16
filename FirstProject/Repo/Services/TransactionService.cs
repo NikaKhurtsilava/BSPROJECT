@@ -1,6 +1,4 @@
-﻿// Inside TransactionService.cs
-using FirstProjectTest.Enums;
-using FirstProjectTest.Models;
+﻿using FirstProjectTest.Models;
 using FirstProjectTest.Repo.IRepository;
 using FirstProjectTest.Repo.IServices;
 

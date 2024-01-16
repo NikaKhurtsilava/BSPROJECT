@@ -3,7 +3,9 @@ using FirstProjectTest.IRepository;
 using FirstProjectTest.Models;
 using FirstProjectTest.Repo.IServices;
 using FirstProjectTest.Repo.Services;
+using FirstProjectTest.Settings;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System.Security.Claims;
 
@@ -14,12 +16,18 @@ namespace FirstProjectTest.Controllers
         private readonly IWalletRepository _walletRepository;
         private readonly IWalletService _walletservice;
         private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IOptions<FirstProjectSettings> _firstProjectSettings;
 
-        public WithdrawController(IWalletRepository walletRepository, IHttpClientFactory httpClientFactory, IWalletService walletservice)
+        public WithdrawController(
+            IWalletRepository walletRepository,
+            IHttpClientFactory httpClientFactory,
+            IWalletService walletservice,
+            IOptions<FirstProjectSettings> firstProjectSettings)
         {
             _walletRepository = walletRepository;
             _httpClientFactory = httpClientFactory;
             _walletservice = walletservice;
+            _firstProjectSettings = firstProjectSettings;
         }
 
         public IActionResult Withdraw()
@@ -72,7 +80,7 @@ namespace FirstProjectTest.Controllers
         {
             using (var httpClient = _httpClientFactory.CreateClient())
             {
-                var apiUrl = "https://localhost:7292/api/secondwithdrawapi/processwithdrawal";
+                var apiUrl = _firstProjectSettings.Value.WithdrawUrl;
 
                 var response = httpClient.PostAsJsonAsync(apiUrl, withdrawRequest).Result;
 
